@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구구단</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <div>{{ first }}곱하기 {{ second }}는?</div>
+        <form v-on:submit="onSubmitForm">
+            <input type="number" ref="answer" v-model="value">
+            <button type="submit">입력</button>
+        </form>
+        <div id="result">{{result}}</div>
+    </div>
+    <script>
+        // Vue를 개발할 때, 브라우저에서 웹을 실행하는 경우,
+        // 변경될만한 여지가 있는 부분들(=데이터)을 찾아야한다.
+        const app = new Vue({
+            el: "#root",
+            data: {
+                first: Math.ceil(Math.random() * 9),
+                second: Math.ceil(Math.random() * 9),
+                value: "", // v-model: 사용자에게 입력받은 값을 데이터로 불러옴
+                result: "",
+            },
+            methods: {
+                onSubmitForm(e) {
+                    e.preventDefault(); // event listener: form 태그의 자동 새로고침 block
+                    console.log(this);
+                    console.log(this.first, this.second, this.value);
+                    if(this.first * this.second === parseInt(this.value)) {
+                        this.result = "정답";
+                        this.first = Math.ceil(Math.random() * 9);
+                        this.second = Math.ceil(Math.random() * 9);
+                    } else {
+                        this.result = "땡";
+                    }
+                    this.$refs.answer.focus();
+                    // ref를 '데이터 조작'에 사용하지 말것
+                    // ex) this.$refs.answer.value = "123"; (X)
+                    this.value = "";
+                },
+            },
+        });
+    </script>
+</body>
+</html>
