@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <!-- vue에서는 WordRelay 이런식으로 사용하면 에러 -->
+    <!-- 무조건 케밥형식으로(가운데 슬래쉬) -->
+    <word-relay start-word="제로초"></word-relay>
+    <word-relay start-word="초밥"></word-relay>
+    <word-relay start-word="바보"></word-relay>
+</div>
+<script>
+    // 컴포넌트는 뷰 인스턴스 생성부분(new Vue ~) 보다는 상단에 위치
+    Vue.component('WordRelay', {
+        template: `
+            <div>
+                <div>{{word}}</div>
+                <form v-on:submit="onSubmitForm">
+                    <input type="text" ref="answer" v-model="value">
+                    <button type="submit">입력</button>
+                </form>
+                <div>{{result}}</div>
+            </div>
+        `,
+        // 동일한 컴포넌트 내에서 달라지는 값은 props로 지정
+        props: ['startWord'],
+        // 컴포넌트의 재사용성 -> 매번 새로운 데이터 객체를 리턴해야 함
+        data() {
+            return {
+                word: this.startWord,
+                result: '',
+                value: '',
+            };
+        },
+        methods: {
+            onSubmitForm(e) {
+                e.preventDefault();
+                if(this.word[this.word.length - 1] === this.value[0]) {
+                    this.result = "딩동댕";
+                    this.word = this.value;
+                } else {
+                    this.result = "땡";
+                }
+                this.value = "";
+                this.$refs.answer.focus();
+            },
+        }
+    })
+</script>
+<script>
+    const app = new Vue({
+        el: "#root",
+    });
+</script>
+</body>
+</html>

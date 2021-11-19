@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Like</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <div v-if="route === 'main'">메인화면</div>
+        <div v-else-if="route === 'sub'">서브화면</div>
+        <div v-else-if="liked">좋아요 눌렀음</div>
+        <button v-else v-on:click="onClickButton">Like</button>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#root', // Vue가 root 태그를 관리
+        // Vue가 root를 id 값으로 갖는 태그를 통제할 수 있게 함
+        
+        // Vue가 통제할 데이터를 지정 => 지정된 데이터를 수정하면,
+        // 화면 상에서도 자동으로 수정사항이 반영됨
+        //      => 데이터만 잘 다루면 된다. 데이터만 바꾸면 화면은 Vue가 알아서 수정해준다
+        
+        data: { // 바뀔만한 값들을 data에 넣어서 지정.
+            liked: false,
+            route: 'main',
+        },
+        methods: {
+            onClickButton() {
+                this.liked = true;
+                // this: Vue 인스턴스를 가리킴
+            },
+        },
+    });
+</script>
+</html>
